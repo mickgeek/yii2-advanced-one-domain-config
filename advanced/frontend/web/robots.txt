@@ -1,0 +1,2 @@
+Disallow: /frontend/web
+Disallow: /backend/web
