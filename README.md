@@ -3,8 +3,7 @@ Yii 2 Advanced Application. One Domain Configuration
 
 There are times when there is no need or no possibility to place the frontend and backend parts on different domains. Here are the instructions for configuration of the Apache or Nginx web servers for use multiple applications on the same domain.
 
-**Final frontend URL: http://advanced.local**
-
+**Final frontend URL: http://advanced.local**  
 **Final backend URL: http://advanced.local/admin**
 
 Preparation
