@@ -7,25 +7,18 @@ RewriteEngine on
 RewriteCond %{REQUEST_URI} (?!^/((frontend|backend)/web|admin))^
 RewriteRule ^ frontend/web%{REQUEST_URI} [L]
 
-# if a directory or a file of the frontend application exists, use the request directly
-RewriteCond %{REQUEST_URI} ^/frontend/web
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-# otherwise forward the request to index.php
-RewriteRule ^ frontend/web/index.php [L]
-
 # redirect a trailing slash (uncomment if necessary)
 #RedirectMatch 301 ^/admin/$ /admin
 # the main rewrite rule for the backend application
 RewriteCond %{REQUEST_URI} (?!^/backend/web)^/admin
-RewriteRule ^admin/?(.*) backend/web/$1 [L]
+RewriteRule ^admin/?(.*)$ backend/web/$1 [L]
 
-# if a directory or a file of the backend application exists, use the request directly
-RewriteCond %{REQUEST_URI} ^/backend/web
+# if a directory or a file exists, use the request directly
+RewriteCond %{REQUEST_URI} ^/(frontend|backend)/web
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 # otherwise forward the request to index.php
-RewriteRule ^ backend/web/index.php [L]
+RewriteRule ^((frontend|backend)/web) $1/index.php
 
 <FilesMatch /\.git>
     <IfVersion < 2.4>
