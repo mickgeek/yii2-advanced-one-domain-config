@@ -1,30 +1,40 @@
 AddDefaultCharset UTF-8
-DirectoryIndex index.php
+
 Options FollowSymLinks
+DirectoryIndex index.php index.html
 RewriteEngine on
 
-# the main rewrite rule for the frontend application
-RewriteCond %{REQUEST_URI} (?!^/((frontend|backend)/web|admin))^
-RewriteRule ^ frontend/web%{REQUEST_URI} [L]
+RewriteRule /\. - [L,F]
 
-# redirect a trailing slash (uncomment if necessary)
-#RedirectMatch 301 ^/admin/$ /admin
-# the main rewrite rule for the backend application
+# define the app environment variable
+RewriteCond %{REQUEST_URI} !^/((frontend|backend)/web|admin)
+RewriteRule ^ - [E=APP:frontend]
 RewriteCond %{REQUEST_URI} (?!^/backend/web)^/admin
-RewriteRule ^admin/?(.*)$ backend/web/$1 [L]
+RewriteRule ^ - [E=APP:backend]
 
+# rewrite the URI of the frontend app
+RewriteCond %{ENV:APP} =frontend
+RewriteRule ^ frontend/web%{REQUEST_URI}
 # if a directory or a file exists, use the request directly
-RewriteCond %{REQUEST_URI} ^/(frontend|backend)/web
+RewriteCond %{ENV:APP} =frontend
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 # otherwise forward the request to index.php
-RewriteRule ^((frontend|backend)/web) $1/index.php
+RewriteRule ^ frontend/web/index.php [L]
 
-<FilesMatch /\.git>
-    <IfVersion < 2.4>
-        Deny from all
-    </IfVersion>
-    <IfVersion >= 2.4>
-        Require all denied
-    </IfVersion>
-</FilesMatch>
+# redirect to the URL without a trailing slash (uncomment if necessary)
+#RewriteRule ^admin/$ /admin [L,R=301]
+
+# rewrite the URI of the backend app
+RewriteCond %{ENV:APP} =backend
+RewriteRule ^admin/?(.*)$ backend/web/$1
+# if a directory or a file exists, use the request directly
+RewriteCond %{ENV:APP} =backend
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+# otherwise forward the request to index.php
+RewriteRule ^ backend/web/index.php [L]
+
+# handle a directory trailing slash, redirect to the initial URI instead the rewritten one
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^(.+[^/])$ %{REQUEST_URI}/ [L,R=301]

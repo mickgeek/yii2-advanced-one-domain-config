@@ -13,10 +13,10 @@ You need to make some changes in the configuration files of the applications acc
 
 The next step is the adding two rules from the bundled `advanced/frontend/web/robots.txt` file to the content of your main `robots.txt` file.
 
-Apache Configuration
+Apache Configuration (.htaccess or VirtualHost)
 ---
 
-> Note: If you have **a shared hosting**, simply copy the bundled `advanced/.htaccess` file into the root directory of your project.
+> Note: If you have **a shared hosting** or want to use `.htaccess`, simply copy the bundled `advanced/.htaccess` file into the root directory of your project.
 
 The first thing to do is to execute the following command with enough permissions to make sure whether the `mod_rewrite` module is enabled:
 
