@@ -32,3 +32,9 @@ Nginx Configuration
 ---
 
 In this case, use only the configuration of the bundled `vhosts/nginx.conf` file. If you don't like use `advanced.local` as a hostname, change it. Also replace `/path/to/advanced` with the actual path to your project.
+
+---
+
+Inspired by discussions in [the russian community] of the Yii framework.
+
+[the russian community]:https://yiiframework.ru/
